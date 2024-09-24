@@ -1,0 +1,30 @@
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: ./utils/Dockerfile
+    container_name: flask-app
+    ports:
+      - "80:80"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/mydatabase
+    depends_on:
+      - mongo
+    volumes:
+      - ./app:/app
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo:7.0
+    container_name: mongo-db
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
