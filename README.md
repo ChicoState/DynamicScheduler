@@ -1,8 +1,7 @@
 # DynamicScheduler
 
-Ivan G. <br/>
-Leo M. <br/>
-Thomas D. <br/>
-Sarah B. <br/>
-Alex L. <br/>
+Ivan G.  
+Leo M.  
+Thomas D.  
+Alex L.  
 Logan W.
