@@ -1,0 +1,29 @@
+/* Main page styling */
+body {
+	font-family: Arial, sans-serif;
+}
+.calendar {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 10px;
+	width: 50%;
+	margin: 20px auto;
+}
+.calendar div {
+	padding: 20px;
+	text-align: center;
+	border: 1px solid #ddd;
+	background-color: #f9f9f9;
+}
+.calendar button {
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+}
