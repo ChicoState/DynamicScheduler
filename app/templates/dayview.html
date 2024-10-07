@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!-- expect template parameters: day_name, month_name, day_number, tasks -->
+<!-- where:
+- day_name: str - what day of the week it is
+- month_name: str - on which day the first day of the month falls (0 for Sunday, 1 for Monday, etc)
+- day_number: str/int - the day of the month 
+- tasks: map<int, string> - all of the tasks that are available for the day -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,108 +16,19 @@
 </head>
 
 <body>
+    <h1>{{ day_name }}, {{ month_name }} {{ day_number }}</h1>
     <div class="timeline-container">
         <!-- 24-hour blocks with space for information below each block -->
+        {% for h in range(0, 24) %}
         <div class="hour-block">
-            <div class="hour">00:00</div>
-            <div class="info"></div>
+            <div class="hour">{{ h }}:00</div>
+            <div class="info">{% if h in tasks %} {{ tasks[h] }} {% endif %}</div>
         </div>
-        <div class="hour-block">
-            <div class="hour">01:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">02:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">03:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">04:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">05:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">06:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">07:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">08:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">09:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">10:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">11:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">12:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">13:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">14:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">15:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">16:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">17:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">18:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">19:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">20:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">21:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">22:00</div>
-            <div class="info"></div>
-        </div>
-        <div class="hour-block">
-            <div class="hour">23:00</div>
-            <div class="info"></div>
-        </div>
+        {% endfor %}
     </div>
 
     <div class="button-container">
-        <form action="addTask" method="POST"><button class="action-button">Add Task</button></form>
+        <form action="/addTask?dayNum={{ request.args['dayNum'] }}" method="POST"><button class="action-button">Add Task</button></form>
         <form action="viewTask" method="POST"><button class="action-button">View Tasks</button></form>
         <form action="serveTask" method="POST"><button class="action-button">Serve Task</button></form>
         <form action="editSchedule" method="POST"><button class="action-button">Edit Schedule</button></form>

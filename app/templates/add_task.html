@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+    
+<!-- expect template parameters: day_name, month_name, day_number -->
+<!-- where:
+- day_name: str - what day of the week it is
+- month_name: str - on which day the first day of the month falls (0 for Sunday, 1 for Monday, etc)
+- day_number: str/int - the day of the month -->
 
 <head>
     <meta charset="UTF-8">
@@ -10,11 +16,11 @@
 
 <body>
     <!-- A template to display the date of the day goes here -->
-    <h1 style="text-align: center;">Add a new event to day n</h1>
+    <h1 style="text-align: center;">Add a new task for {{ day_name }}, {{ month_name }} {{ day_number }}</h1>
     <!-- action can be changed -->
-    <form action="add_ev" method="POST" class="add_event_form">
-        <label for="ev_name">Event name:</label><br>
-        <input type="text" id="ev_name" name="ev_name"><br>
+    <form action="addTask/newTask" method="POST" class="add_task_form">
+        <label for="task_name">Task name:</label><br>
+        <input type="text" id="task_name" name="task_name"><br>
         <label for="from_time">From time:</label><br>
         <input type="text" id="from_time" name="from_time"><br>
         <!-- <select name="n" id="n">
