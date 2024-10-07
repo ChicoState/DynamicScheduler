@@ -314,7 +314,4 @@ htmlcov/
 .tox/
 docs/_build/
 
-data/*
-!data/.gitkeep
-
 .DS_Store
