@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- expect template parameters: day_name, month_name, day_number -->
+<!-- where:
+- day_name: str - what day of the week it is
+- month_name: str - on which day the first day of the month falls (0 for Sunday, 1 for Monday, etc)
+- day_number: str/int - the day of the month -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+    <link rel="stylesheet" href="../static/css/add_task.css">
+</head>
+
+<body>
+    <!-- A template to display the date of the day goes here -->
+    <h1 style="text-align: center;">Add a new task for {{ day_name }}, {{ month_name }} {{ day_number }}</h1>
+    <!-- action can be changed -->
+    <form action="addTask/newTask" method="POST" class="add_task_form">
+        <label for="task_name">Task name:</label><br>
+        <input type="text" id="task_name" name="task_name"><br>
+        <label for="from_time">From time:</label><br>
+        <input type="text" id="from_time" name="from_time"><br>
+        <!-- <select name="n" id="n">
+            <option value="a">a</option>
+            <option value="b">b</option>
+            <option value="c">c</option>
+            <option value="d">d</option>
+        </select> -->
+        <label for="to_time">To time:</label><br>
+        <input type="text" id="to_time" name="to_time"><br>
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+</html>

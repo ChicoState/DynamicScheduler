@@ -45,7 +45,7 @@ body {
 .info {
     height: 100px; /* Adjust as needed for the amount of info */
     width: 110%;
-    background-color: #F5F5DC;
+    background-color: #6a6a6a;
     border: 1px solid #555;
     margin-top: 5px;
     /* Shift the info block horizontally to align better with times */
