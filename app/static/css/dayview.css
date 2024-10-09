@@ -7,49 +7,46 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 100vh;
     background-color: #f0f0f0;
 }
 
-/* Styling for the container that holds the timeline and information */
 .timeline-container {
+    position: relative;
+    width: 80%;
+    height: 500px;
     display: flex;
-    justify-content: flex-start;
-    width: 100%;
-    overflow-x: auto;
-    padding: 10px 0;
-    border-bottom: 1px solid #ccc;
-    background-color: #333;
+    flex-direction: row;
 }
 
-/* Each hour block, with room for information below */
-.hour-block {
-    flex: 0 0 60px; /* Fixed width for each hour block */
+.legend {
+    border: 3px solid black;
+    background-color: azure;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 8px;
-    box-sizing: border-box;
-    color: white;
+    width: 20%;
 }
 
-.hour {
-    border: 1px solid #555;
-    padding: 25px;
-    background-color: #444;
+.event-items {
     width: 80%;
+    border: 3px solid black;
+    background-color: aquamarine;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Placeholder for info below each hour */
-.info {
-    height: 100px; /* Adjust as needed for the amount of info */
-    width: 110%;
-    background-color: #6a6a6a;
-    border: 1px solid #555;
-    margin-top: 5px;
-    /* Shift the info block horizontally to align better with times */
-    margin-right: 15px; /* Adjust this value to align with the hour block */
+.time-display {
+    position: absolute;
+    width: 100%;
+}
+
+.event-display {
+    position: absolute;
+    background-color: lightgreen;
+    width: 100%;
+}
+
+.event-display:hover {
+    background-color: greenyellow;
 }
 
 /* Button container */

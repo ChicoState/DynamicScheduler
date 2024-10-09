@@ -25,7 +25,7 @@ def dayview():
     # TODO: Query all tasks for this day from the database
     # request.view_args['dayNum']
     return render_template('dayview.html', day_number=int(request.args['dayNum']), day_name='Logsday', month_name='October',
-                           tasks={7:'Task for 7am'})
+                           tasks=[[120, 60, "from 2 to 3"], [180, 30, "from 3 to 3:30"], [1200, 240, "from 20 to 24"]])
 
 # a web page for adding a task
 @app.route('/addTask', methods=['POST','GET'])
