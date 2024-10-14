@@ -13,22 +13,24 @@ body {
 .timeline-container {
     position: relative;
     width: 80%;
+    /* width: 500px; */
     height: 500px;
     display: flex;
     flex-direction: row;
+    
 }
 
 .legend {
-    border: 3px solid black;
+    /* border: 3px solid black; */
     background-color: azure;
     display: flex;
     flex-direction: column;
-    width: 20%;
+    width: 10%;
 }
 
 .event-items {
-    width: 80%;
-    border: 3px solid black;
+    width: 90%;
+    /* border: 3px solid black; */
     background-color: aquamarine;
     display: flex;
     flex-direction: column;
@@ -36,13 +38,13 @@ body {
 
 .time-display {
     position: absolute;
-    width: 100%;
+    width: 10%;
 }
 
 .event-display {
     position: absolute;
     background-color: lightgreen;
-    width: 100%;
+    width: 90%;
 }
 
 .event-display:hover {
