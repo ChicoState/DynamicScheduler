@@ -41,14 +41,30 @@ body {
     width: 10%;
 }
 
+/* event */
 .event-display {
     position: absolute;
     background-color: lightgreen;
+    transition: background-color 0.3s ease;
+    border-width: 0px;
     width: 90%;
 }
 
 .event-display:hover {
     background-color: greenyellow;
+}
+
+/* task */
+.task-display {
+    position: absolute;
+    background-color: lightblue;
+    transition: background-color 0.3s ease;
+    border-width: 0px;
+    width: 90%;
+}
+
+.task-display:hover {
+    background-color: lightskyblue;
 }
 
 /* Button container */
