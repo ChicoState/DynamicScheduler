@@ -14,7 +14,7 @@ body {
     position: relative;
     width: 80%;
     /* width: 500px; */
-    height: 500px;
+    height: 700px;
     display: flex;
     flex-direction: row;
     
@@ -28,17 +28,17 @@ body {
     width: 10%;
 }
 
+.time-display {
+    position: absolute;
+    width: 10%;
+}
+
 .event-items {
     width: 90%;
     /* border: 3px solid black; */
     background-color: aquamarine;
     display: flex;
     flex-direction: column;
-}
-
-.time-display {
-    position: absolute;
-    width: 10%;
 }
 
 /* event */
