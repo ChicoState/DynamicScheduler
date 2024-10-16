@@ -2,3 +2,4 @@
 - `/dayView?dayNum={}` - the day view for the selected day; later on either store the day locally OR store the whole date there (not just day) - `dayview.html`
 - `/addTask` - the page for adding a new task - `add_task.html`
 - `/addTask/newTask` - path where you're redirected after adding a new task; immideately returns back to the calendar view (probably return to the dayView instead, later on); this is intended just to add new task and then redirect back to a useful page; please change it if it's not a good way to do it, it's my first time doing web with paths and python - `NO HTML`
+- `/viewTask` - a page where a selected task can be viewed, modified and deleted

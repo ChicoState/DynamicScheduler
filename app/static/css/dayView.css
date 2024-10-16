@@ -1,0 +1,92 @@
+/* Main page styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+
+.timeline-container {
+    position: relative;
+    width: 80%;
+    /* width: 500px; */
+    height: 700px;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.legend {
+    /* border: 3px solid black; */
+    background-color: azure;
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+}
+
+.time-display {
+    position: absolute;
+    width: 10%;
+}
+
+.event-items {
+    width: 90%;
+    /* border: 3px solid black; */
+    background-color: aquamarine;
+    display: flex;
+    flex-direction: column;
+}
+
+/* event */
+.event-display {
+    position: absolute;
+    background-color: lightgreen;
+    transition: background-color 0.3s ease;
+    border-width: 0px;
+    width: 90%;
+}
+
+.event-display:hover {
+    background-color: greenyellow;
+}
+
+/* task */
+.task-display {
+    position: absolute;
+    background-color: lightblue;
+    transition: background-color 0.3s ease;
+    border-width: 0px;
+    width: 90%;
+}
+
+.task-display:hover {
+    background-color: lightskyblue;
+}
+
+/* Button container */
+.button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Styling for the buttons */
+.action-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+    background-color: #0056b3;
+}
