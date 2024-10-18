@@ -4,13 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar View</title>
+    <title>Task View</title>
     <link rel="stylesheet" href="../static/css/viewTask.css">
 </head>
 
 <body>
-
+    
     <h1>Task {{ task_id }}</h1>
-
+    <h2>{{ day_name }}, {{ month_name }} {{ day_number }}</h1>
+    
+    <div class="button-container">
+        <form action="/" method="POST"><button class="action-button">View Schedule</button></form>
+        <form action="/dayView?dayNum={{ day_number }}" method="POST"><button class="action-button">Back to Day</button></form>
+        <!---form action="{{ action_name }}" method="POST"><button type="submit">{{ action_name }}</button></form--->
+    </div>
 </body>
 </html>
