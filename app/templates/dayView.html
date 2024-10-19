@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- expect template parameters: day_name, month_name, day_number, military_time, tasks -->
+<!-- where:
+- day_name: str - what day of the week it is
+- month_name: str - on which day the first day of the month falls (0 for Sunday, 1 for Monday, etc)
+- day_number: str/int - the day of the month 
+- military_time: bool - true to display 0:00-24:00, false to display 0
+- tasks: vec<dict<start_time(int), duration(int), title(string), id(string), is_task(bool)>> - all of the tasks that are available for the day 
+    - start_time: int - at what time (in minutes from 0:00) the event starts
+    - duration: int - duration of the event, in minutes
+    - title: string - title of the event
+    - id: string - id of the event
+    - is_task: bool - if true, it's a task; if false, it's an event
+    -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day View</title>
+    <link rel="stylesheet" href="../static/css/dayView.css">
+</head>
+
+<body>
+    <h1>{{ day_name }}, {{ month_name }} {{ day_number }}</h1>
+    <div class="timeline-container">
+        <!-- TIMELINE: DISPLAYING HOURS -->
+        <div class="legend">
+            <!-- the magic number is: height percent/minute in the day -->
+            {% for i in range(0,24) %} 
+            <div class="time-display" style="
+                top: {{ i*60*0.0694444444 }}%; 
+                height: {{ 60*0.0694444444 }}%; 
+                background-color: rgb({{ 169+(i%2)*40 }}, {{ 169+(i%2)*40 }}, {{ 169+(i%2)*40 }});"
+            >
+                <!-- an ugly if statement, but it's just to display non-military times correctly -->
+                {% if military_time %}
+                    {{ i }}:00
+                {% else %}
+                    {% if i == 0 %}
+                        12am
+                    {% elif i == 12 %}
+                        12pm
+                    {% elif i < 12 %}
+                        {{ i }}am
+                    {% else %}
+                        {{ i-12 }}pm
+                    {% endif %}
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <!-- EVENTS/TASKS -->
+        <div class="event-items">
+            {% for ev in tasks %}
+            <!-- the magic number is: height percent/minute in the day -->
+            <form action="/viewTask?taskId={{ ev['id'] }}" method="POST">
+                <button 
+                    class={% if ev['is_task'] %} "task-display" {% else %} "event-display" {% endif %}
+                    style="top: {{ ev['start_time']*0.0694444444 }}%; height: {{ ev['duration']*0.0694444444 }}%;"
+                >
+                    {{ ev['title'] }}
+            </button>
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="button-container">
+        <form action="/addTask?dayNum={{ request.args['dayNum'] }}" method="POST"><button class="action-button">Add Task</button></form>
+        <!-- <form action="viewTask" method="POST"><button class="action-button">View Tasks</button></form> -->
+        <form action="serveTask" method="POST"><button class="action-button">Serve Task</button></form>
+        <form action="editSchedule" method="POST"><button class="action-button">Edit Schedule</button></form>
+        <form action="/" method="POST"><button class="action-button">View Schedule</button></form>
+    </div>
+    <br>
+</body>
+</html>

@@ -18,19 +18,24 @@ def index():
 
 # a web page for viewing the tasks for the day
 @app.route('/dayView', methods=['POST','GET'])
-def dayview():
+def day_view():
     # TODO: Query what day number and day of the week we chose
     # TODO: Consider if using request.view_args is better (aka .../dayView/13) (now,  .../dayView?dayNum=13)
     #       Or maybe storing it locally is better?
     # TODO: Query all tasks for this day from the database
     # request.view_args['dayNum']
-    return render_template('dayview.html', day_number=int(request.args['dayNum']), day_name='Logsday', month_name='October',
-                           tasks={7:'Task for 7am'})
+    return render_template('dayView.html', day_number=int(request.args['dayNum']), day_name='Logsday', month_name='October',
+                           military_time=False,
+                           tasks=[
+                               {"start_time": 120, "duration": 60, "title": "from 2 to 3", "id": "event1", "is_task": False},
+                               {"start_time": 180, "duration": 30, "title": "from 3 to 3:30", "id": "task1", "is_task": True},
+                               {"start_time": 1200, "duration": 240, "title": "from 20 to 24", "id": "event2", "is_task": False}
+                            ])
 
 # a web page for adding a task
 @app.route('/addTask', methods=['POST','GET'])
 def add_event():
-    return render_template('add_task.html', day_number=int(request.args['dayNum']), day_name='Logsday', month_name='October')
+    return render_template('addTask.html', day_number=int(request.args['dayNum']), day_name='Logsday', month_name='October')
 
 @app.route('/addTask/newTask', methods=['POST','GET'])
 def receive_task():
@@ -39,10 +44,12 @@ def receive_task():
     # TODO: ADD A NEW TASK TO THE DATABASE
     return redirect(url_for('index'))
 
-# @app.route('/delete/<taskId>')
-# def deleteTask(taskId):
-#     mongo.db.tasks.delete_one({'_id': ObjectId(taskId)})
-#     return redirect(url_for('index'))
+@app.route('/viewTask', methods=['POST','GET'])
+def view_task():
+    # request.args['taskId'] to get the id of the task being displayed
+    # TODO: Make this page: it's empty rn
+    # ARGS TO RENDER_TEMPLATE ARE NOT FINAL
+    return render_template('viewTask.html', task_id=request.args['taskId'])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
