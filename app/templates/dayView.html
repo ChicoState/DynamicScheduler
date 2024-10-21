@@ -56,6 +56,9 @@
             {% for ev in tasks %}
             <!-- the magic number is: height percent/minute in the day -->
             <form action="/viewTask?taskId={{ ev['id'] }}" method="POST">
+                <input type="hidden" name="day_name" value="{{ day_name }}">
+                <input type="hidden" name="month_name" value="{{ month_name }}">
+                <input type="hidden" name="day_number" value="{{ day_number }}">
                 <button 
                     class={% if ev['is_task'] %} "task-display" {% else %} "event-display" {% endif %}
                     style="top: {{ ev['start_time']*0.0694444444 }}%; height: {{ ev['duration']*0.0694444444 }}%;"

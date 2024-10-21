@@ -46,10 +46,23 @@ def receive_task():
 
 @app.route('/viewTask', methods=['POST','GET'])
 def view_task():
+
+    task_id = request.args.get('taskId')  # Retrieved from query string (GET part)
+    day_name = request.form.get('day_name')  # Retrieved from form (POST part)
+    month_name = request.form.get('month_name')
+    day_number = request.form.get('day_number')
+    # Render the template with these values
+    return render_template('viewTask.html', 
+                           action_name='dayView',
+                           task_id=task_id, 
+                           day_number=day_number, 
+                           day_name=day_name , 
+                           month_name=month_name,
+                           military_time=False)
     # request.args['taskId'] to get the id of the task being displayed
     # TODO: Make this page: it's empty rn
-    # ARGS TO RENDER_TEMPLATE ARE NOT FINAL
-    return render_template('viewTask.html', task_id=request.args['taskId'])
+    # ARGS TO RENDER_TEMPLATE ARE NOT FINAL"
+    # return render_template('viewTask.html', task_id=request.args['taskId'])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
