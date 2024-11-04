@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 
+    <!-- expect template parameters: task -->
+    <!-- where:
+    - task: a task to display
+        - start_time: int - at what time (in minutes from 0:00) the event starts
+        - duration: int - duration of the event, in minutes
+        - title: string - title of the event
+        - _id: string - id of the event
+        - is_task: bool - if true, it's a task; if false, it's an event -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar View</title>
+    <title>Task View</title>
     <link rel="stylesheet" href="../static/css/viewTask.css">
 </head>
 
 <body>
 
-    <h1>Task {{ task_id }}</h1>
+    <h1> {% if task.is_task %}Task{% else %}Event{% endif %} {{ task.title }} </h1>
+
+    <div> From {{ task.start_time }} to {{ task.duration + task.start_time }} </div>
+
+    <div class="button-container">
+        <form action="/dayView?dayNum={{ task.day_number }}" method="POST"><button class="action-button">Back</button></form>
+        <form action="/" method="POST"><button class="action-button">To Calendar</button></form>
+        <form action="/deleteTask?taskId={{ task._id }}" method="POST"><button class="action-button">Delete Task</button></form>
+    </div>
 
 </body>
 </html>

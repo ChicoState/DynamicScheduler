@@ -15,3 +15,6 @@ def add_task(task):
 
 def get_task_by_id(task_id):
     return tasks_collection.find_one({"_id": task_id})
+
+def delete_task(task):
+    tasks_collection.delete_one(task)

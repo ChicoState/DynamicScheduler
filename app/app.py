@@ -9,7 +9,8 @@ app = Flask(__name__)
 def index():
     return render_template('calendar.html',
                            action_name='dayView', first_day_offset=2, num_days=31,
-                           month_name='October', last_month_days=30)
+                           month_name='October', last_month_days=30
+                            )
 
 @app.route('/dayView', methods=['POST', 'GET'])
 def day_view():
@@ -44,6 +45,15 @@ def view_task():
     task_id = request.args['taskId']
     task = db.get_task_by_id(ObjectId(task_id))
     return render_template('viewTask.html', task=task)
+
+@app.route('/deleteTask', methods=['POST', 'GET'])
+def deleteTask():
+    task_id = request.args.get('taskId', 1)
+    task = db.get_task_by_id(ObjectId(task_id))
+    day_number = task["day_number"]
+    db.delete_task(task)
+    tasks = db.get_tasks_for_day(day_number)
+    return render_template('dayView.html', day_number=day_number, day_name='Logsday', month_name='October', military_time=False, tasks=tasks)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
