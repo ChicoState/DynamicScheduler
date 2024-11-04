@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 from bson.objectid import ObjectId
-import db
+import db, util
 
 app = Flask(__name__)
 
@@ -16,17 +16,17 @@ def index():
 def day_view():
     day_number = int(request.args.get('dayNum', 1))
     tasks = db.get_tasks_for_day(day_number)
-    return render_template('dayView.html', day_number=day_number, day_name='Logsday', month_name='October', military_time=False, tasks=tasks)
+    return render_template('dayView.html', day_number=day_number, day_name='Tuesday', month_name='October', military_time=False, tasks=tasks)
 
 @app.route('/addTask', methods=['POST', 'GET'])
 def add_event():
-    return render_template('addTask.html', day_number=int(request.args['dayNum']), day_name='Logsday', month_name='October')
+    return render_template('addTask.html', day_number=int(request.args['dayNum']), day_name='Tuesday', month_name='October')
 
 @app.route('/addTask/newTask', methods=['POST', 'GET'])
 def receive_task():
     task_name = request.form["task_name"]
-    from_time = int(request.form["from_time"])
-    to_time = int(request.form["to_time"])
+    from_time = util.time_from_string(request.form["from_time"])
+    to_time = util.time_from_string(request.form["to_time"])
     day_number = int(request.args['dayNum'])
     
     task = {
@@ -50,10 +50,9 @@ def view_task():
 def deleteTask():
     task_id = request.args.get('taskId', 1)
     task = db.get_task_by_id(ObjectId(task_id))
-    day_number = task["day_number"]
+    day_number = int(task["day_number"])
     db.delete_task(task)
-    tasks = db.get_tasks_for_day(day_number)
-    return render_template('dayView.html', day_number=day_number, day_name='Logsday', month_name='October', military_time=False, tasks=tasks)
+    return redirect(f"/dayView?dayNum={day_number}")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
