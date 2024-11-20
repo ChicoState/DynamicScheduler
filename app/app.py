@@ -45,6 +45,20 @@ def view_task():
     task_id = request.args['taskId']
     task = db.get_task_by_id(ObjectId(task_id))
     return render_template('viewTask.html', task=task)
+    # vvv Below is Alex's code that does not pull from database (merge conflict with main, i decided to keep it here) vvv
+    #task_id = request.args.get('taskId')  # Retrieved from query string (GET part)
+    # day_name = request.form.get('day_name')  # Retrieved from form (POST part)
+    # month_name = request.form.get('month_name')
+    # day_number = request.form.get('day_number')
+    # # Render the template with these values
+    # return render_template('viewTask.html', 
+    #                        action_name='dayView',
+    #                        task_id=task_id, 
+    #                        day_number=day_number, 
+    #                        day_name=day_name , 
+    #                        month_name=month_name,
+    #                        military_time=False)
+
 
 @app.route('/deleteTask', methods=['POST', 'GET'])
 def deleteTask():
