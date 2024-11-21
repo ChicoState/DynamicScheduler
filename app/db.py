@@ -18,3 +18,7 @@ def get_task_by_id(task_id):
 
 def delete_task(task):
     tasks_collection.delete_one(task)
+
+def clear_db():
+    # Delete all documents in the collection
+    tasks_collection.delete_many({})

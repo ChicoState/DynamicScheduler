@@ -21,16 +21,13 @@
     <form action="addTask/newTask?dayNum={{ request.args['dayNum'] }}" method="POST" class="add_task_form">
         <label for="task_name">Task name:</label><br>
         <input type="text" id="task_name" name="task_name"><br>
-        <label for="from_time">From time:</label><br>
-        <input type="text" id="from_time" name="from_time"><br>
-        <!-- <select name="n" id="n">
-            <option value="a">a</option>
-            <option value="b">b</option>
-            <option value="c">c</option>
-            <option value="d">d</option>
-        </select> -->
-        <label for="to_time">To time:</label><br>
-        <input type="text" id="to_time" name="to_time"><br>
+
+        <label for="from_time">Start Time (HH:MM):</label><br>
+        <input type="time" id="from_time" name="from_time" required><br>
+        
+        <label for="to_time">End Time (HH:MM):</label><br>
+        <input type="time" id="to_time" name="to_time" required><br>
+        
         <input type="submit" value="Submit">
     </form>
 

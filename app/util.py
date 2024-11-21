@@ -30,4 +30,12 @@ def string_from_time(time: int):
         return f"{hour}{signiture}"
     return f"{hour}{minute}{signiture}"
 
+
+# Convert `from_time` and `to_time` to minutes since midnight
+def time_to_minutes(t):
+    hours, minutes = map(int, t.split(":"))
+    return hours * 60 + minutes
+
+
+
 # env.globals['string_from_time'] = string_from_time
