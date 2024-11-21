@@ -7,11 +7,11 @@
 - month_name: str - on which day the first day of the month falls (0 for Sunday, 1 for Monday, etc)
 - day_number: str/int - the day of the month 
 - military_time: bool - true to display 0:00-24:00, false to display 0
-- tasks: vec<dict<start_time(int), duration(int), title(string), id(string), is_task(bool)>> - all of the tasks that are available for the day 
+- tasks: vec<dict<start_time(int), duration(int), title(string), _id(string), is_task(bool)>> - all of the tasks that are available for the day 
     - start_time: int - at what time (in minutes from 0:00) the event starts
     - duration: int - duration of the event, in minutes
     - title: string - title of the event
-    - id: string - id of the event
+    - _id: string - id of the event
     - is_task: bool - if true, it's a task; if false, it's an event
     -->
 
@@ -55,7 +55,7 @@
         <div class="event-items">
             {% for ev in tasks %}
             <!-- the magic number is: height percent/minute in the day -->
-            <form action="/viewTask?taskId={{ ev['id'] }}" method="POST">
+            <form action="/viewTask?taskId={{ ev['_id'] }}" method="POST">
                 <input type="hidden" name="day_name" value="{{ day_name }}">
                 <input type="hidden" name="month_name" value="{{ month_name }}">
                 <input type="hidden" name="day_number" value="{{ day_number }}">

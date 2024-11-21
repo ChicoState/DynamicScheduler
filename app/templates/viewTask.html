@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 
+    <!-- expect template parameters: task -->
+    <!-- where:
+    - task: a task to display
+        - start_time: int - at what time (in minutes from 0:00) the event starts
+        - duration: int - duration of the event, in minutes
+        - title: string - title of the event
+        - _id: string - id of the event
+        - is_task: bool - if true, it's a task; if false, it's an event -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +18,16 @@
 </head>
 
 <body>
-    
-    <h1>Task {{ task_id }}</h1>
-    <h2>{{ day_name }}, {{ month_name }} {{ day_number }}</h1>
-    
+    <h1> {% if task.is_task %}Task{% else %}Event{% endif %} {{ task.title }} </h1>
+
+    <div> {{ day_name }}, {{ month_name }} {{ day_number }} </div>
+
+    <div> {{ task.start_time }} - {{ task.duration + task.start_time }} (in minutes from midnight for now) </div>
+
     <div class="button-container">
-        <form action="/" method="POST"><button class="action-button">View Schedule</button></form>
-        <form action="/dayView?dayNum={{ day_number }}" method="POST"><button class="action-button">Back to Day</button></form>
-        <!---form action="{{ action_name }}" method="POST"><button type="submit">{{ action_name }}</button></form--->
+        <form action="/dayView?dayNum={{ task.day_number }}" method="POST"><button class="action-button">Back</button></form>
+        <form action="/" method="POST"><button class="action-button">To Calendar</button></form>
+        <form action="/deleteTask?taskId={{ task._id }}" method="POST"><button class="action-button">Delete Task</button></form>
     </div>
 </body>
 </html>
