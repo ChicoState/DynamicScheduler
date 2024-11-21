@@ -12,6 +12,13 @@ def index():
                            month_name='October', last_month_days=30
                             )
 
+# helper route to clear the db during development
+# use curl -X POST http://localhost/clearDatabase in console when app is running
+@app.route('/clearDatabase', methods=['POST'])
+def clear_database():
+    db.clear_db()
+    return "Database cleared successfully!", 200
+
 @app.route('/dayView', methods=['POST', 'GET'])
 def day_view():
     day_number = int(request.args.get('dayNum', 1))
@@ -25,14 +32,21 @@ def add_event():
 @app.route('/addTask/newTask', methods=['POST', 'GET'])
 def receive_task():
     task_name = request.form["task_name"]
-    from_time = util.time_from_string(request.form["from_time"])
-    to_time = util.time_from_string(request.form["to_time"])
+    from_time = request.form["from_time"]
+    to_time = request.form["to_time"]
     day_number = int(request.args['dayNum'])
     
+    start_time = util.time_to_minutes(from_time)
+    end_time = util.time_to_minutes(to_time)
+    duration = end_time - start_time
+
+
     task = {
         "title": task_name,
-        "start_time": from_time,
-        "duration": to_time - from_time,
+        "from_time": from_time,
+        "to_time": to_time,
+        "start_time_mfm": start_time,
+        "duration_minutes": duration,
         "day_number": day_number,
         "is_task": True
     }
