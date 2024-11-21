@@ -19,7 +19,7 @@ services:
     image: mongo:7.0
     container_name: mongo-db
     volumes:
-      - ./data/db:/data/db
+      - mongo_data:/data/db
     ports:
       - "27017:27017"
     networks:
@@ -28,3 +28,6 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  mongo_data:
