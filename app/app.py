@@ -39,7 +39,7 @@ def add_event():
                            pathViewDay=pathViewDay, pathCreateEvent=pathCreateEvent)
 
 @app.route(pathCreateEvent, methods=['POST', 'GET'])
-def receive_task():
+def receive_event():
     name = request.form["event_name"]
     from_time = request.form["from_time"]
     to_time = request.form["to_time"]
@@ -56,7 +56,7 @@ def receive_task():
         "start_time_mfm": start_time,
         "duration_minutes": duration,
         "day_number": day_number,
-        "is_task": True
+        "is_task": False # this is an event, not a task
     }
     db.add_task(task)
     
