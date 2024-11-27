@@ -67,15 +67,14 @@ body {
     background-color: lightskyblue;
 }
 
-/* Button container */
-.button-container {
+/* Button container and styling for the buttons*/
+/* .button-container {
     margin-top: 20px;
     display: flex;
     justify-content: center;
     gap: 10px;
 }
 
-/* Styling for the buttons */
 .action-button {
     padding: 10px 20px;
     font-size: 16px;
@@ -89,4 +88,4 @@ body {
 
 .action-button:hover {
     background-color: #0056b3;
-}
+} */

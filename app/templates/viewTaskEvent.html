@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <!-- expect template parameters: task -->
+    <!-- expect template parameters: task, pathViewCalendar, pathViewDay, pathDeleteTaskOrEvent -->
     <!-- where:
     - task: a task to display
         - start_time: int - at what time (in minutes from 0:00) the event starts
@@ -14,7 +14,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task View</title>
-    <link rel="stylesheet" href="../static/css/viewTask.css">
+    <link rel="stylesheet" href="../static/css/viewTaskEvent.css">
+    <link rel="stylesheet" href="../static/css/button.css">
 </head>
 
 <body>
@@ -25,9 +26,9 @@
     <div> {{ task.from_time }} - {{ task.to_time }} (in minutes from midnight for now) </div>
 
     <div class="button-container">
-        <form action="/dayView?dayNum={{ task.day_number }}" method="POST"><button class="action-button">Back</button></form>
-        <form action="/" method="POST"><button class="action-button">To Calendar</button></form>
-        <form action="/deleteTask?taskId={{ task._id }}" method="POST"><button class="action-button">Delete Task</button></form>
+        <form action="{{ pathViewDay }}?dayNum={{ task.day_number }}" method="POST"><button class="action-button">Back</button></form>
+        <form action="{{ pathViewCalendar }}" method="POST"><button class="action-button">To Calendar</button></form>
+        <form action="{{ pathDeleteTaskOrEvent }}?taskId={{ task._id }}" method="POST"><button class="action-button">Delete Task</button></form>
     </div>
 </body>
 </html>
