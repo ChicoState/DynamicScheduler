@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- expect template parameters: pathViewDay, first_day_offset, num_days, month_name, last_month_days -->
+<!-- expect template parameters: pathRawViewDay, first_day_offset, num_days, month_name, last_month_days -->
 <!-- where:
-- pathViewDay: str - the path for the action
+- pathRawViewDay: str - the path to the dayView page (Raw: DOES NOT INCLUDE THE ARGUMENTS)
 - first_day_offset: int - is on which day the first day of the month falls (0 for Sunday, 1 for Monday, etc)
 - num_days: int - the number of days in the given month
 - month_name: int - the name of the month
@@ -31,7 +31,7 @@
         <!-- Clickable Days -->
 		<!-- dayview.html action is placeholder for flask function name -->
         {% for i in range(1, num_days+1) %}
-        <div><form action="{{ pathViewDay }}?dayNum={{ i }}" method="POST"><button type="submit">{{ i }}</button></form></div>
+        <div><form action="{{ pathRawViewDay }}?dayNum={{ i }}" method="POST"><button type="submit">{{ i }}</button></form></div>
         {% endfor %}
         <!-- Next Month Days - non clickable -->
         {% for i in range(1, 36-(first_day_offset+num_days)) %}

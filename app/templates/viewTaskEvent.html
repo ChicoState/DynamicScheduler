@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <!-- expect template parameters: task, pathViewCalendar, pathViewDay, pathDeleteTaskOrEvent -->
+    <!-- expect template parameters: task, pathViewCalendar, pathBack, pathDeleteTaskOrEvent -->
     <!-- where:
     - task: a task to display
         - start_time: int - at what time (in minutes from 0:00) the event starts
         - duration: int - duration of the event, in minutes
         - title: string - title of the event
         - _id: string - id of the event
-        - is_task: bool - if true, it's a task; if false, it's an event -->
+        - is_task: bool - if true, it's a task; if false, it's an event
+    - pathViewCalendar: str - a full path to calendar, including arguments
+    - pathBack: str - a full path to last page, including arguments
+    - pathDeleteTaskOrEvent: str - a full path to delete, including arguments -->
 
 <head>
     <meta charset="UTF-8">
@@ -19,16 +22,32 @@
 </head>
 
 <body>
-    <h1> {% if task.is_task %}Task{% else %}Event{% endif %} {{ task.title }} </h1>
+    {% if task.is_task %}
 
-    <div> {{ day_name }}, {{ month_name }} {{ day_number }} </div>
+    <h1> Task {{ task.title }} </h1>
 
-    <div> {{ task.from_time }} - {{ task.to_time }} (in minutes from midnight for now) </div>
+    <div> {{ task.description }} </div>
+
+    <div> Scheduled for: {{ day_name }}, {{ month_name }} {{ task.day_number }} </div>
+
+    <div> {{ task.from_time }} - {{ task.to_time }} </div>
+    
+    {% else %}
+    
+    <h1> Event {{ task.title }} </h1>
+
+    <div> {{ task.description }} </div>
+
+    <div> {{ day_name }}, {{ month_name }} {{ task.day_number }} </div>
+
+    <div> {{ task.from_time }} - {{ task.to_time }} </div>
+    
+    {% endif %}
 
     <div class="button-container">
-        <form action="{{ pathViewDay }}?dayNum={{ task.day_number }}" method="POST"><button class="action-button">Back</button></form>
+        <form action="{{ pathBack }}" method="POST"><button class="action-button">Back</button></form>
         <form action="{{ pathViewCalendar }}" method="POST"><button class="action-button">To Calendar</button></form>
-        <form action="{{ pathDeleteTaskOrEvent }}?taskId={{ task._id }}" method="POST"><button class="action-button">Delete Task</button></form>
+        <form action="{{ pathDeleteTaskOrEvent }}" method="POST"><button class="action-button">Delete Task</button></form>
     </div>
 </body>
 </html>
