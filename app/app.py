@@ -5,7 +5,16 @@ import db, util
 
 app = Flask(__name__)
 
-@app.route('/', methods=['POST', 'GET'])
+# Constants for paths
+pathViewCalendar = "/" # view a month
+pathViewDay = "/dayView" # view events for a day
+pathViewTaskOrEvent = "/viewTaskEvent" # view an event/task (with possibility to delete)
+pathNewEvent = "/newEvent" # screen for adding an event
+pathCreateEvent = "/newEvent/create" # will actually put it in the database
+pathDeleteTaskOrEvent = "/deleteTask" # delete a task/event
+pathClearDatabase = "/clearDatabase" # DANGER: completely clear database | curl -X POST http://localhost/clearDatabase while app is running
+
+@app.route(pathViewCalendar, methods=['POST', 'GET'])
 def index():
     military_time = False
     if (military_time):
@@ -17,31 +26,34 @@ def index():
     return render_template('calendar.html',
                            action_name='dayView', first_day_offset=2, num_days=31,
                            month_name='October', last_month_days=30,
-                           current_time=current_time, current_date=current_date)
+                           current_time=current_time, current_date=current_date, pathViewDay=pathViewDay)
+
 
 # helper route to clear the db during development
 # use curl -X POST http://localhost/clearDatabase in console when app is running
-@app.route('/clearDatabase', methods=['POST'])
+@app.route(pathClearDatabase, methods=['POST'])
 def clear_database():
     db.clear_db()
     return "Database cleared successfully!", 200
 
-@app.route('/dayView', methods=['POST', 'GET'])
+@app.route(pathViewDay, methods=['POST', 'GET'])
 def day_view():
 
         
 
     day_number = int(request.args.get('dayNum', 1))
     tasks = db.get_tasks_for_day(day_number)
-    return render_template('dayView.html', day_number=day_number, day_name='Tuesday', month_name='October', military_time=False, tasks=tasks)
+    return render_template('dayView.html', day_number=day_number, day_name='Tuesday', month_name='October', military_time=False, tasks=tasks,
+                           pathNewEvent=pathNewEvent, pathViewTaskOrEvent=pathViewTaskOrEvent, pathViewCalendar=pathViewCalendar)
 
-@app.route('/addTask', methods=['POST', 'GET'])
+@app.route(pathNewEvent, methods=['POST', 'GET'])
 def add_event():
-    return render_template('addTask.html', day_number=int(request.args['dayNum']), day_name='Tuesday', month_name='October')
+    return render_template('addEvent.html', day_number=int(request.args['dayNum']), day_name='Tuesday', month_name='October', 
+                           pathViewDay=pathViewDay, pathCreateEvent=pathCreateEvent)
 
-@app.route('/addTask/newTask', methods=['POST', 'GET'])
-def receive_task():
-    task_name = request.form["task_name"]
+@app.route(pathCreateEvent, methods=['POST', 'GET'])
+def receive_event():
+    name = request.form["event_name"]
     from_time = request.form["from_time"]
     to_time = request.form["to_time"]
     day_number = int(request.args['dayNum'])
@@ -50,47 +62,34 @@ def receive_task():
     end_time = util.time_to_minutes(to_time)
     duration = end_time - start_time
 
-
     task = {
-        "title": task_name,
+        "title": name,
         "from_time": from_time,
         "to_time": to_time,
         "start_time_mfm": start_time,
         "duration_minutes": duration,
         "day_number": day_number,
-        "is_task": True
+        "is_task": False # this is an event, not a task
     }
     db.add_task(task)
     
-    return redirect(url_for('index'))
+    return redirect(f"{pathViewDay}?dayNum={day_number}")
 
-@app.route('/viewTask', methods=['POST', 'GET'])
-def view_task():
+@app.route(pathViewTaskOrEvent, methods=['POST', 'GET'])
+def view_task_event():
     task_id = request.args['taskId']
     task = db.get_task_by_id(ObjectId(task_id))
-    return render_template('viewTask.html', task=task)
-    # vvv Below is Alex's code that does not pull from database (merge conflict with main, i decided to keep it here) vvv
-    #task_id = request.args.get('taskId')  # Retrieved from query string (GET part)
-    # day_name = request.form.get('day_name')  # Retrieved from form (POST part)
-    # month_name = request.form.get('month_name')
-    # day_number = request.form.get('day_number')
-    # # Render the template with these values
-    # return render_template('viewTask.html', 
-    #                        action_name='dayView',
-    #                        task_id=task_id, 
-    #                        day_number=day_number, 
-    #                        day_name=day_name , 
-    #                        month_name=month_name,
-    #                        military_time=False)
+    return render_template('viewTaskEvent.html', task=task, 
+                           pathViewDay=pathViewDay, pathViewCalendar=pathViewCalendar, pathDeleteTaskOrEvent=pathDeleteTaskOrEvent)
 
 
-@app.route('/deleteTask', methods=['POST', 'GET'])
-def deleteTask():
+@app.route(pathDeleteTaskOrEvent, methods=['POST', 'GET'])
+def delete_task():
     task_id = request.args.get('taskId', 1)
     task = db.get_task_by_id(ObjectId(task_id))
     day_number = int(task["day_number"])
     db.delete_task(task)
-    return redirect(f"/dayView?dayNum={day_number}")
+    return redirect(f"{pathViewDay}?dayNum={day_number}")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
