@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- expect template parameters: day_name, month_name, day_number, military_time, tasks -->
+<!-- expect template parameters: day_name, month_name, day_number, military_time, tasks, pathNewEvent, pathViewTaskOrEvent, pathViewCalendar -->
 <!-- where:
 - day_name: str - what day of the week it is
 - month_name: str - on which day the first day of the month falls (0 for Sunday, 1 for Monday, etc)
@@ -20,6 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day View</title>
     <link rel="stylesheet" href="../static/css/dayView.css">
+    <link rel="stylesheet" href="../static/css/button.css">
 </head>
 
 <body>
@@ -55,7 +56,7 @@
         <div class="event-items">
             {% for ev in tasks %}
             <!-- the magic number is: height percent/minute in the day -->
-            <form action="/viewTask?taskId={{ ev['_id'] }}" method="POST">
+            <form action="{{ pathViewTaskOrEvent }}?taskId={{ ev['_id'] }}" method="POST">
                 <input type="hidden" name="day_name" value="{{ day_name }}">
                 <input type="hidden" name="month_name" value="{{ month_name }}">
                 <input type="hidden" name="day_number" value="{{ day_number }}">
@@ -71,11 +72,8 @@
     </div>
 
     <div class="button-container">
-        <form action="/addTask?dayNum={{ request.args['dayNum'] }}" method="POST"><button class="action-button">Add Task</button></form>
-        <!-- <form action="viewTask" method="POST"><button class="action-button">View Tasks</button></form> -->
-        <form action="serveTask" method="POST"><button class="action-button">Serve Task</button></form>
-        <form action="editSchedule" method="POST"><button class="action-button">Edit Schedule</button></form>
-        <form action="/" method="POST"><button class="action-button">View Schedule</button></form>
+        <form action="{{ pathNewEvent }}?dayNum={{ request.args['dayNum'] }}" method="POST"><button class="action-button">New Event</button></form>
+        <form action="{{ pathViewCalendar }}" method="POST"><button class="action-button">To Calendar</button></form>
     </div>
     <br>
 </body>

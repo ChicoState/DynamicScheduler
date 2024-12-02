@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- expect template parameters: day_name, month_name, day_number, pathViewDay, pathCreateEvent -->
+<!-- where:
+- day_name: str - what day of the week it is
+- month_name: str - on which day the first day of the month falls (0 for Sunday, 1 for Monday, etc)
+- day_number: str/int - the day of the month -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event</title>
+    <link rel="stylesheet" href="../static/css/addEvent.css">
+    <link rel="stylesheet" href="../static/css/button.css">
+</head>
+
+<body>
+    <!-- A template to display the date of the day goes here -->
+    <h1 style="text-align: center;">Add a new event for {{ day_name }}, {{ month_name }} {{ day_number }}</h1>
+    <!-- action can be changed -->
+    <form action="{{ pathCreateEvent }}?dayNum={{ request.args['dayNum'] }}" method="POST" class="add_event_form">
+        <label for="event_name">Event name:</label><br>
+        <input type="text" id="event_name" name="event_name"><br>
+
+        <label for="event_description">Event description:</label><br>
+        <input type="textarea" id="event_description" name="event_description"><br>
+
+        <label for="from_time">Start Time (HH:MM):</label><br>
+        <input type="time" id="from_time" name="from_time" required><br>
+        
+        <label for="to_time">End Time (HH:MM):</label><br>
+        <input type="time" id="to_time" name="to_time" required><br>
+        
+        <br>
+        <input type="submit" class="action-button" value="Submit">
+    </form>
+
+    <div class="button-container">
+        <form action="{{ pathViewDay }}?dayNum={{ day_number }}" method="POST"><button class="action-button">Cancel</button></form>
+    </div>
+
+</body>
+</html>
