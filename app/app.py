@@ -7,10 +7,17 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
+    military_time = False
+    if (military_time):
+        current_time = util.get_current_time_military()
+    else: 
+        current_time = util.get_current_time_12h()
+    
+    current_date = util.get_current_date()
     return render_template('calendar.html',
                            action_name='dayView', first_day_offset=2, num_days=31,
-                           month_name='October', last_month_days=30
-                            )
+                           month_name='October', last_month_days=30,
+                           current_time=current_time, current_date=current_date)
 
 # helper route to clear the db during development
 # use curl -X POST http://localhost/clearDatabase in console when app is running
@@ -21,6 +28,9 @@ def clear_database():
 
 @app.route('/dayView', methods=['POST', 'GET'])
 def day_view():
+
+        
+
     day_number = int(request.args.get('dayNum', 1))
     tasks = db.get_tasks_for_day(day_number)
     return render_template('dayView.html', day_number=day_number, day_name='Tuesday', month_name='October', military_time=False, tasks=tasks)
