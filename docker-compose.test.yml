@@ -1,0 +1,33 @@
+services:
+  test-app:
+    build:
+      context: ./app
+      dockerfile: ./utils/Dockerfile.test
+    container_name: test-flask-app
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/testdatabase
+    depends_on:
+      - mongo
+    volumes:
+      - ./app:/app
+    command: pytest tests/
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo:7.0
+    container_name: test-mongo-db
+    volumes:
+      - mongo_test_data:/data/db
+    ports:
+      - "27018:27017"
+    command: mongod --quiet --logpath /dev/null #shred logs
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo_test_data:
