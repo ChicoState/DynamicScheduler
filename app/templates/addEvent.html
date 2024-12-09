@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
     
-<!-- expect template parameters: day_name, month_name, day_number, pathViewDay, pathCreateEvent -->
+<!-- expect template parameters: day_name, month_name, day_number, month_number, year, pathViewDay, pathCreateEvent -->
 <!-- where:
 - day_name: str - what day of the week it is
 - month_name: str - on which day the first day of the month falls (0 for Sunday, 1 for Monday, etc)
 - day_number: str/int - the day of the month
+- year: str/int - the year; 2024/2025 for our purposes
 - pathViewDay: str - a full path to dayview, including arguments
 - pathCreateEvent: str - a full path to create event screen, including arguments -->
 
@@ -19,20 +20,53 @@
 
 <body>
     <!-- A template to display the date of the day goes here -->
-    <h1 style="text-align: center;">Add a new event for {{ day_name }}, {{ month_name }} {{ day_number }}</h1>
+    <h1 style="text-align: center;">Add a new task for {{ day_name }}, {{ month_name }} {{ day_number }}</h1>
     <!-- action can be changed -->
     <form action="{{ pathCreateEvent }}" method="POST" class="add_event_form">
-        <label for="event_name">Event name:</label><br>
-        <input type="text" id="event_name" name="event_name"><br>
+        <label for="event_name">Name: <red>*</red> </label><br>
+        <input type="text" id="event_name" name="event_name" required><br>
 
-        <label for="event_description">Event description:</label><br>
-        <input type="textarea" id="event_description" name="event_description"><br>
+        <label for="event_description">Description:</label><br>
+        <textarea type="text" id="event_description" name="event_description"></textarea><br>
 
-        <label for="from_time">Start Time (HH:MM):</label><br>
-        <input type="time" id="from_time" name="from_time" required><br>
+        <label for="start_date">Start on: <red>*</red> </label><br>
+        <input type="date" id="start_date" name="start_date" required value="{{ year }}-{{ month_number }}-{{ day_number }}"><br>
         
-        <label for="to_time">End Time (HH:MM):</label><br>
-        <input type="time" id="to_time" name="to_time" required><br>
+
+        <div class="choice_block_container">
+
+            <!-- This part is for event -->
+            <div>
+                <label for="radio_event">Set time now</label>
+                <input type="radio" name="is_task" value="false" id="radio_event"><br>
+
+                <div class="choice_block">
+                    <label for="from_time">Start Time: <red>*</red> </label><br>
+                    <input type="time" id="from_time" name="from_time" required><br><br>
+                    
+                    <label for="to_time">End Time: <red>*</red> </label><br>
+                    <input type="time" id="to_time" name="to_time" required><br>
+                </div>
+            </div>
+            
+            <!-- This part is for task -->
+            <div>
+                <label for="radio_task">Choose time later</label>
+                <input type="radio" name="is_task" value="true" id="radio_task" checked><br>
+
+                <div class="choice_block">
+                    <label for="due_date">Due on:</label><br>
+                    <input type="date" id="due_date" name="due_date"><br><br>
+
+                    <label for="duration">How long will it take?</label><br>
+                    <input type="text" id="duration" name="duration"><br><br>
+
+                    <label for="can_split">Can complete in parts?</label>
+                    <input type="checkbox" id="can_split" name="can_split"><br>
+                </div>
+            </div>
+
+        </div>
         
         <br>
         <input type="submit" class="action-button" value="Submit">

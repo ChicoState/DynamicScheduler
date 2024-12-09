@@ -40,7 +40,7 @@ def day_view():
 @app.route(pathNewEvent, methods=['POST', 'GET'])
 def add_event():
     day_number=int(request.args['dayNum'])
-    return render_template('addEvent.html', day_number=day_number, day_name='Tuesday', month_name='October', 
+    return render_template('addEvent.html', day_number=day_number, day_name='Tuesday', month_number=12, month_name='December', year=2024,
                            pathViewDay=util.formatURI(pathViewDay, dayNum=day_number), 
                            pathCreateEvent=util.formatURI(pathCreateEvent, dayNum=day_number))
 
