@@ -1,3 +1,6 @@
+"""
+Pytest test cases
+"""
 def test_index_route(client):
     """Test the index route"""
     response = client.get("/")

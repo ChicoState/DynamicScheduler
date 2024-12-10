@@ -1,0 +1,5 @@
+[MAIN]
+
+disable=
+    invalid-name,
+    import-error
