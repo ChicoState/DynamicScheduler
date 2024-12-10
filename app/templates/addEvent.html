@@ -16,13 +16,14 @@
     <title>Add Event</title>
     <link rel="stylesheet" href="../static/css/addEvent.css">
     <link rel="stylesheet" href="../static/css/button.css">
+    <script src="../static/js/addEvent.js"></script>
 </head>
 
 <body>
     <!-- A template to display the date of the day goes here -->
     <h1 style="text-align: center;">Add a new task for {{ day_name }}, {{ month_name }} {{ day_number }}</h1>
     <!-- action can be changed -->
-    <form action="{{ pathCreateEvent }}" method="POST" class="add_event_form">
+    <form action="{{ pathCreateEvent }}" method="POST" class="add_event_form" id="add_event_form">
         <label for="event_name">Name: <red>*</red> </label><br>
         <input type="text" id="event_name" name="event_name" required><br>
 
@@ -30,49 +31,56 @@
         <textarea type="text" id="event_description" name="event_description"></textarea><br>
 
         <label for="start_date">Start on: <red>*</red> </label><br>
-        <input type="date" id="start_date" name="start_date" required value="{{ year }}-{{ month_number }}-{{ day_number }}"><br>
-        
+        <input type="date" id="start_date" name="start_date" required value="{{ year }}-{{ month_number }}-{{ day_number }}"><br><br>
 
         <div class="choice_block_container">
-
-            <!-- This part is for event -->
-            <div>
-                <label for="radio_event">Set time now</label>
-                <input type="radio" name="is_task" value="false" id="radio_event"><br>
-
-                <div class="choice_block">
-                    <label for="from_time">Start Time: <red>*</red> </label><br>
-                    <input type="time" id="from_time" name="from_time" required><br><br>
-                    
-                    <label for="to_time">End Time: <red>*</red> </label><br>
-                    <input type="time" id="to_time" name="to_time" required><br>
-                </div>
-            </div>
             
             <!-- This part is for task -->
             <div>
-                <label for="radio_task">Choose time later</label>
-                <input type="radio" name="is_task" value="true" id="radio_task" checked><br>
+                <div class="choice_block_with_select">
+                    <div class="radio_wrapper">
+                        <label for="radio_task">Choose time later</label>
+                        <input type="radio" name="is_task" value="true" id="radio_task" onclick="radio_click(this)" checked><br>
+                    </div>
 
-                <div class="choice_block">
-                    <label for="due_date">Due on:</label><br>
-                    <input type="date" id="due_date" name="due_date"><br><br>
+                    <div class="choice_block">
+                        <label for="due_date">Due on:</label><br>
+                        <input type="date" id="due_date" name="due_date"><br><br>
 
-                    <label for="duration">How long will it take?</label><br>
-                    <input type="text" id="duration" name="duration"><br><br>
+                        <label for="duration">How long will it take?</label><br>
+                        <input type="text" id="duration" name="duration"><br><br>
 
-                    <label for="can_split">Can complete in parts?</label>
-                    <input type="checkbox" id="can_split" name="can_split"><br>
+                        <label for="can_split">Can complete in parts?</label>
+                        <input type="checkbox" id="can_split" name="can_split"><br>
+                    </div>
+                </div>
+            </div>
+
+            <!-- This part is for event -->
+            <div>
+                <div class="choice_block_with_select">
+                    <div class="radio_wrapper">
+                        <label for="radio_event">Set time now</label>
+                        <input type="radio" name="is_task" value="false" id="radio_event" onclick="radio_click(this)"><br>
+                    </div>
+
+                    <div class="choice_block">
+                        <label for="from_time">Start Time: <red>*</red> </label><br>
+                        <input type="time" id="from_time" name="from_time"><br><br> <!-- required if autoenabled -->
+                        
+                        <label for="to_time">End Time: <red>*</red> </label><br>
+                        <input type="time" id="to_time" name="to_time"><br> <!-- required if autoenabled -->
+                    </div>
                 </div>
             </div>
 
         </div>
         
         <br>
-        <input type="submit" class="action-button" value="Submit">
     </form>
 
     <div class="button-container">
+        <input type="submit" class="action-button" value="Submit" form="add_event_form">
         <form action="{{ pathViewDay }}" method="POST"><button class="action-button">Cancel</button></form>
     </div>
 

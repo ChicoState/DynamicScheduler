@@ -18,11 +18,18 @@ pathCreateTask = "/newTask/create" # will actually put it in the database
 
 @app.route(pathViewCalendar, methods=['POST', 'GET'])
 def index():
-    return render_template('calendar.html', first_day_offset=2, num_days=31, month_name='October', last_month_days=30,
-                           pathRawViewDay=pathViewDay)
+    military_time = False
+    if (military_time):
+        current_time = util.get_current_time_military()
+    else: 
+        current_time = util.get_current_time_12h()
+    
+    current_date = util.get_current_date()
+    return render_template('calendar.html',
+                           action_name='dayView', first_day_offset=2, num_days=31,
+                           month_name='October', last_month_days=30,
+                           current_time=current_time, current_date=current_date, pathViewDay=pathViewDay)
 
-# helper route to clear the db during development
-# use curl -X POST http://localhost/clearDatabase in console when app is running
 @app.route(pathClearDatabase, methods=['POST'])
 def clear_database():
     db.clear_db()
@@ -44,6 +51,7 @@ def add_event():
                            pathViewDay=util.formatURI(pathViewDay, dayNum=day_number), 
                            pathCreateEvent=util.formatURI(pathCreateEvent, dayNum=day_number))
 
+
 @app.route(pathCreateEvent, methods=['POST', 'GET'])
 def receive_event():
     name = request.form["event_name"]
@@ -64,7 +72,7 @@ def receive_event():
         "start_time_mfm": start_time,
         "duration_minutes": duration,
         "day_number": day_number,
-        "is_task": False # this is an event, not a task
+        "is_task": False
     }
     db.add_task(task)
     
@@ -78,7 +86,6 @@ def view_task_event():
                            pathBack=util.formatURI(pathViewDay, dayNum=task["day_number"]),
                            pathViewCalendar=pathViewCalendar, 
                            pathDeleteTaskOrEvent=util.formatURI(pathDeleteTaskOrEvent, taskId=task["_id"]))
-
 
 @app.route(pathDeleteTaskOrEvent, methods=['POST', 'GET'])
 def delete_task():

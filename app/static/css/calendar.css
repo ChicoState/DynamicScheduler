@@ -1,32 +1,52 @@
-/* Main page styling */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;800&display=swap");
+
 body {
-	font-family: Arial, sans-serif;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  font-family: "Poppins", serif;
+  background: #FFC72C;
+  background: radial-gradient(circle, #FFC72C 0%, #1D428A 100%);
 }
-.calendar {
-	display: grid;
-	grid-template-columns: repeat(7, 1fr);
-	gap: 10px;
-	width: 50%;
-	margin: 20px auto;
-}
-.calendar div {
-	padding: 20px;
-	text-align: center;
-	border: 1px solid #ddd;
-	background-color: #f9f9f9;
-}
-.calendar button {
-	background-color: #4CAF50;
-	color: white;
-	border: none;
-	padding: 10px 15px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	margin: 4px 2px;
-	cursor: pointer;
-}
+
 h1 {
-	text-align: center;
+  font-weight: 800;
+  margin: 1rem 0 0;
+}
+
+ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+}
+ul li {
+  display: flex;
+  width: 10rem;
+  height: 10rem;
+  margin: 0.25rem;
+  flex-flow: column;
+  border-radius: 0.2rem;
+  padding: 1rem;
+  font-weight: 300;
+  font-size: 0.8rem;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+ul li time {
+  font-size: 2rem;
+  margin: 0 0 1rem 0;
+  font-weight: 500;
+}
+ul .today {
+  background: #ffffff70;
+}
+ul .today time {
+  font-weight: 800;
 }

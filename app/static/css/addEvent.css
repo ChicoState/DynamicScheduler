@@ -1,10 +1,15 @@
-/* .add_event_form {
+.choice_block_with_select {
+    margin: 5px;
+    border-radius: 20px;
     background-color: lightblue;
-} */
+}
+
+.radio_wrapper {
+    margin: 10px;
+}
 
 .choice_block {
     padding: 10px;
-    margin: 5px;
     border-radius: 20px;
     background-color: lightgoldenrodyellow;
 }

@@ -1,5 +1,5 @@
 # from jinja2 import Environment
-
+from datetime import datetime, timedelta
 # env = Environment()
 
 def time_from_string(time: str):
@@ -49,5 +49,25 @@ def formatURI(path:str, **kwargs):
     for k, v in kwargs.items():
         s += f"{k}={v}&"
     return s[:-1] # drop last '&'
+
+def get_current_time_12h():
+    now = datetime.now()
+    pst_now = now - timedelta(hours=8)  # Convert to PST (8 hours behind UTC)
+    return pst_now.strftime("%-I:%M %p")  # 12-hour format with AM/PM
+
+def get_current_time_military():
+    now = datetime.now()
+    pst_now = now - timedelta(hours=8)  # Convert to PST (8 hours behind UTC)
+    return pst_now.strftime("%H:%M")  # 24-hour format without AM/PM
+
+def get_current_time_mfm():
+    now = get_current_time_military()
+    now_mfm = time_to_minutes(now)
+    return now_mfm # integer representing minutes from midnight
+
+def get_current_date():
+    now = datetime.now()
+    pst_now = now - timedelta(hours=8)  # Convert to PST (8 hours behind UTC)
+    return pst_now.strftime("%d/%m/%Y")  # Day/Month/Year format
 
 # env.globals['string_from_time'] = string_from_time
