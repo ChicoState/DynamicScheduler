@@ -29,29 +29,32 @@
     <h1>{{ day_name }}, {{ month_name }} {{ day_number }}</h1>
     <br>
     <div class="timeline-container">
-        <div class="legend">
-            {% for i in range(0,24) %} 
-            <div class="time-display" style="
-                top: calc({{ i*60*0.0694444444 }}% + {{ i*2 }}px); 
-                height: calc({{ 60*0.0694444444 }}% - 2px); 
-                background-color: rgb({{ 169+(i%2)*40 }}, {{ 169+(i%2)*40 }}, {{ 169+(i%2)*40 }});"
-            >
-                {% if military_time %}
-                    {{ i }}:00
-                {% else %}
-                    {% if i == 0 %}
-                        12am
-                    {% elif i == 12 %}
-                        12pm
-                    {% elif i < 12 %}
-                        {{ i }}am
-                    {% else %}
-                        {{ i-12 }}pm
-                    {% endif %}
-                {% endif %}
-            </div>
-            {% endfor %}
-        </div>
+    <div class="legend">
+    {% for i in range(0,24) %} 
+    <div class="time-display" style="
+        top: calc({{ i*60*0.0694444444 }}% + {{ i*2 }}px); 
+        height: calc({{ 60*0.0694444444 }}% - 2px); 
+        background-color: rgb({{ 169+(i*%2)*40 }}, {{ 169+(i*%2)*40 }}, {{ 169+(i*%2)*40 }}); 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;"
+    >
+        {% if military_time %}
+            {{ i }}:00
+        {% else %}
+            {% if i == 0 %}
+                12am
+            {% elif i == 12 %}
+                12pm
+            {% elif i < 12 %}
+                {{ i }}am
+            {% else %}
+                {{ i-12 }}pm
+            {% endif %}
+        {% endif %}
+    </div>
+    {% endfor %}
+    </div>
         <div class="event-items">
             {% for ev in tasks %}
             <form action="{{ pathViewTaskOrEvent }}?taskId={{ ev['_id'] }}" method="POST">
