@@ -1,28 +1,35 @@
-/* Main page styling */
+@import url("https://fonts.googleapis.com/css2?family=Serif:wght@100;300;400;500;800&display=swap");
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    flex-flow: column;
     align-items: center;
-    background-color: #f0f0f0;
+    font-family: "Poppins", serif;
+    background: #FFC72C;
+    background: radial-gradient(circle, #FFC72C 0%, #1D428A 100%);
+}
+
+h1 {
+    font-weight: 800;
+    margin: 1rem 0 0;
 }
 
 .timeline-container {
     position: relative;
     width: 80%;
-    /* width: 500px; */
     height: 700px;
     display: flex;
     flex-direction: row;
-    
+    margin: 1rem 0;
 }
 
 .legend {
-    /* border: 3px solid black; */
-    background-color: azure;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
     display: flex;
     flex-direction: column;
     width: 10%;
@@ -30,45 +37,44 @@ body {
 
 .time-display {
     position: absolute;
-    width: 10%;
+    width: 100%;
+    font-size: 0.8rem;
+    font-weight: 300;
+    box-sizing: border-box;
 }
 
 .event-items {
     width: 90%;
-    /* border: 3px solid black; */
-    background-color: aquamarine;
     display: flex;
     flex-direction: column;
 }
 
-/* event */
-.event-display {
+.event-display,
+.task-display {
     position: absolute;
-    background-color: lightgreen;
     transition: background-color 0.3s ease;
     border-width: 0px;
     width: 90%;
+    border-radius: 10px;
+}
+
+.event-display {
+    background-color: lightgreen;
 }
 
 .event-display:hover {
     background-color: greenyellow;
 }
 
-/* task */
 .task-display {
-    position: absolute;
     background-color: lightblue;
-    transition: background-color 0.3s ease;
-    border-width: 0px;
-    width: 90%;
 }
 
 .task-display:hover {
     background-color: lightskyblue;
 }
 
-/* Button container and styling for the buttons*/
-/* .button-container {
+.button-container {
     margin-top: 20px;
     display: flex;
     justify-content: center;
@@ -88,4 +94,4 @@ body {
 
 .action-button:hover {
     background-color: #0056b3;
-} */
+}
