@@ -33,7 +33,12 @@
             <div class="time-display" style="
                 top: {{ i*60*0.0694444444 }}%; 
                 height: {{ 60*0.0694444444 }}%; 
-                background-color: rgb({{ 169+(i%2)*40 }}, {{ 169+(i%2)*40 }}, {{ 169+(i%2)*40 }});"
+                background-color: rgba(255, 255, 255, 0.25);
+                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+                backdrop-filter: blur(4px);
+                -webkit-backdrop-filter: blur(4px);
+                border-radius: 10px;
+                border: 1px solid rgba(255, 255, 255, 0.18);"
             >
                 <!-- an ugly if statement, but it's just to display non-military times correctly -->
                 {% if military_time %}
