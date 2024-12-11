@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>December 2024 Calendar</title>
+    <title>Dynamic Scheduler</title>
     <link rel="stylesheet" href="../static/css/calendar.css">
 </head>
 <body>
 <h1>Current month: December 2024</h1>
-<p>Your Dynamic Calendar</p>
+<h3>Your Dynamic Scheduling Calendar</h3>
 <ul>
     {% for i in range(last_month_days+1-first_day_offset, last_month_days+1) %}
     <li><time datetime="2024-11-{{ i }}">{{ i }}</time></li>
