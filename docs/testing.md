@@ -1,6 +1,6 @@
 ### This is just running one command
 
-`docker compose -f docker-compose-test.yml up`
+`docker compose -f docker-compose.test.yml up`
 
 Your output should look something like this:
 
