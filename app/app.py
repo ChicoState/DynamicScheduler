@@ -3,6 +3,7 @@ Dynamic Scheduler main flask instance
 """
 import db
 import util
+import csv
 from flask import Flask, render_template, request, redirect
 from bson.objectid import ObjectId
 
@@ -44,6 +45,28 @@ def clear_database():
     """
     db.clear_db()
     return "Database cleared successfully!", 200
+
+def load_users_from_csv():
+    """ Load usernames from a CSV file. """
+    users = []
+    with open('users/usernames.csv', newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            users.append(row[0])
+    return users
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        users = load_users_from_csv()
+        if username in users:
+            session['logged_in'] = True
+            session['username'] = username 
+            return redirect(pathViewCalendar)
+        else:
+            return render_template('login.html', error='Invalid username')
+    return render_template('login.html')
 
 @app.route(pathViewDay, methods=['POST', 'GET'])
 def day_view():
@@ -109,17 +132,6 @@ def delete_task():
     day_number = int(task["day_number"])
     db.delete_task(task)
     return redirect(f"{pathViewDay}?dayNum={day_number}")
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        if username == 'admin' and password == 'password':
-            return redirect(pathViewCalendar)
-        else:
-            return render_template('login.html', error='Invalid credentials')
-    return render_template('login.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
