@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>Current month: December 2024</h1>
-<h3>Your Dynamic Scheduling Calendar</h3>
+<h3>Your Dynamic Scheduling Calendar, <span id="username">{{ username }}</span></h3>
 <ul>
     {% for i in range(last_month_days+1-first_day_offset, last_month_days+1) %}
     <li><time datetime="2024-11-{{ i }}">{{ i }}</time></li>
