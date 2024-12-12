@@ -20,6 +20,7 @@ pathClearDatabase = "/clearDatabase"
 # DANGER: completely clear database
 # curl -X POST http://localhost/clearDatabase
 # while app is running
+app.config['SECRET_KEY'] = 'csci430csci430csci430csci430csci430csci430csci430csci430'
 
 @app.route(pathViewCalendar, methods=['POST', 'GET'])
 def index():
