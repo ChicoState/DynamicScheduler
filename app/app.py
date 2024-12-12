@@ -49,7 +49,7 @@ def clear_database():
 def load_users_from_csv():
     """ Load usernames from a CSV file. """
     users = []
-    with open('users/usernames.csv', newline='') as csvfile:
+    with open('users/users.csv', newline='') as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
             users.append(row[0])
@@ -64,8 +64,7 @@ def login():
             session['logged_in'] = True
             session['username'] = username 
             return redirect(pathViewCalendar)
-        else:
-            return render_template('login.html', error='Invalid username')
+        return render_template('login.html', error='Invalid username')
     return render_template('login.html')
 
 @app.route(pathViewDay, methods=['POST', 'GET'])
