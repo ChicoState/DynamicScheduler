@@ -2,4 +2,5 @@
 
 disable=
     invalid-name,
-    import-error
+    import-error,
+    wildcard-import

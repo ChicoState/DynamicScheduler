@@ -1,3 +1,9 @@
+"""
+Tests for util.py
+"""
+from datetime import datetime
+from util import *
+
 def test_time_from_string():
     """Test conversion of string times to minutes since midnight"""
     assert time_from_string("1pm") == 780  # Placeholder logic
