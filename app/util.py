@@ -17,6 +17,9 @@ def time_from_string(time: str):
     return int(time)
 
 def string_from_time(time: int):
+    """
+    Convert an int (in minutes from midnight) to a string
+    """
     # Calculate hours and minutes
     hour = time // 60
     minute = time % 60
