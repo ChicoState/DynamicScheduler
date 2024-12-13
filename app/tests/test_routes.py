@@ -1,3 +1,6 @@
+"""
+Pytest test cases
+"""
 from datetime import datetime, timedelta
 from util import time_from_string, string_from_time, time_to_minutes, get_current_time_12h, get_current_time_military, get_current_time_mfm, get_current_date
 
