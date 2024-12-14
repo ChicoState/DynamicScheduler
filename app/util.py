@@ -18,25 +18,27 @@ def time_from_string(time: str):
 
 def string_from_time(time: int):
     """
-    Get string from time
+    Convert an int (in minutes from midnight) to a string
     """
-    # actually parse, this is just a placeholder
-    hour = time / 60
-    if hour == 0:
-        hour = 12
-    elif hour > 13:
-        return f"{str(hour-12)}pm"
-    signiture = ""
-    if hour < 13:
-        signiture = "am"
-    else:
-        signiture = "pm"
-
+    # Calculate hours and minutes
+    hour = time // 60
     minute = time % 60
 
-    if minute == 0:
-        return f"{hour}{signiture}"
-    return f"{hour}{minute}{signiture}"
+    # Determine AM/PM
+    if hour == 0:
+        hour = 12
+        signiture = "am"
+    elif hour < 12:
+        signiture = "am"
+    elif hour == 12:
+        signiture = "pm"
+    else:
+        hour -= 12
+        signiture = "pm"
+
+    minute_str = f"{minute:02}"
+
+    return f"{hour}:{minute_str}{signiture}"
 
 
 # Convert `from_time` and `to_time` to minutes since midnight

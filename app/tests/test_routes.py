@@ -1,6 +1,7 @@
 """
 Pytest test cases
 """
+
 def test_index_route(client):
     """Test the index route"""
     response = client.get("/")
@@ -18,3 +19,19 @@ def test_add_event_route(client):
     response = client.get("/newEvent?dayNum=1")
     assert response.status_code == 200
     assert b"<html" in response.data
+
+def test_clear_database(client):
+    """Test the clear database route"""
+    response = client.post("/clearDatabase")
+    assert response.status_code == 200
+    assert b"Database cleared successfully!" in response.data
+
+def test_create_event_route(client):
+    """Test the create event route"""
+    response = client.post("/newEvent/create?dayNum=1", data={
+        "event_name": "Meeting",
+        "from_time": "10:00",
+        "to_time": "11:00"
+    })
+    assert response.status_code == 302  # Redirect after creation
+    assert "/dayView?dayNum=1" in response.headers["Location"]

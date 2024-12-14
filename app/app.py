@@ -9,6 +9,8 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
+# Hello
+
 # Constants for paths
 pathViewCalendar = "/"  # view a month
 pathViewDay = "/dayView"  # view events for a day
