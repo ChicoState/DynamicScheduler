@@ -31,8 +31,8 @@ Dynamic Scheduler helps you:
 ### Login Page
 
 - Secure login and authentication.
-- Personalized scheduler based on user credentials.
-- Source of the users.csv file: {https://github.com/shouldbee/reserved-usernames}
+- Personalized scheduler based on usernames only.
+- Source of the users.csv and users.txt file: [users](https://github.com/shouldbee/reserved-usernames)
 
 ---
 
