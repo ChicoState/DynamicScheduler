@@ -43,3 +43,4 @@ Dynamic Scheduler helps you:
 3. Ivan Gavrushenko
 4. Alex Leonard
 5. Logan Winn
+ 
