@@ -32,7 +32,9 @@ Dynamic Scheduler helps you:
 
 - Secure login and authentication.
 - Personalized scheduler based on user credentials.
-- Source of the users.cs file: {https://github.com/shouldbee/reserved-usernames}
+- Source of the users.csv file: {https://github.com/shouldbee/reserved-usernames}
+
+---
 
 ### Authors: 
 
