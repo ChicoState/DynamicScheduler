@@ -23,21 +23,35 @@
     <title>Day View</title>
     <link rel="stylesheet" href="../static/css/dayView.css">
     <link rel="stylesheet" href="../static/css/button.css">
+    <style>
+        .task-display, .event-display {
+            position: absolute;
+            left: 120px; /* Adjust to align tasks/events to the right of the gray bubbles */
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .legend {
+            width: 100px; /* Adjust to the width of your gray bubble */
+        }
+    </style>
 </head>
 
 <body>
     <h1>{{ day_name }}, {{ month_name }} {{ day_number }}</h1>
+    <br>
     <div class="timeline-container">
-        <!-- TIMELINE: DISPLAYING HOURS -->
         <div class="legend">
-            <!-- the magic number is: height percent/minute in the day -->
             {% for i in range(0,24) %} 
             <div class="time-display" style="
-                top: {{ i*60*0.0694444444 }}%; 
-                height: {{ 60*0.0694444444 }}%; 
+                top: calc({{ i*60*0.0694444444 }}% + {{ i*2 }}px); 
+                height: calc({{ 60*0.0694444444 }}% - 2px); 
                 background-color: rgb({{ 169+(i%2)*40 }}, {{ 169+(i%2)*40 }}, {{ 169+(i%2)*40 }});"
             >
-                <!-- an ugly if statement, but it's just to display non-military times correctly -->
                 {% if military_time %}
                     {{ i }}:00
                 {% else %}
@@ -54,7 +68,6 @@
             </div>
             {% endfor %}
         </div>
-        <!-- EVENTS/TASKS -->
         <div class="event-items">
             {% for ev in tasks %}
             <!-- the magic number is: height percent/minute in the day -->
@@ -64,10 +77,12 @@
                 <input type="hidden" name="day_number" value="{{ day_number }}">
                 <button 
                     class={% if ev['is_task'] %} "task-display" {% else %} "event-display" {% endif %}
-                    style="top: {{ ev['start_time_mfm']*0.0694444444 }}%; height: {{ ev['duration_minutes']*0.0694444444 }}%;"
+                    style="
+                        top: calc({{ ev['start_time_mfm']*0.0694444444 }}% + {{ (ev['start_time_mfm'] // 60) * 2 }}px); 
+                        height: calc({{ ev['duration_minutes']*0.0694444444 }}% - 2px);"
                 >
                     {{ ev['title'] }}
-            </button>
+                </button>
             </form>
             {% endfor %}
         </div>

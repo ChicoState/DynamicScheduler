@@ -13,23 +13,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ month_name }} {{ year }} Calendar</title>
+    <title>Dynamic Scheduler</title>
     <link rel="stylesheet" href="../static/css/calendar.css">
 </head>
 <body>
-
-<h1>{{ month_name }} {{ year }}</h1>
-<p>Your dynamic calendar</p>
+<h1>Current month: December 2024</h1>
+<h3>Your Dynamic Scheduling Calendar, <span id="username">{{ username }}</span></h3>
 <ul>
-    <!-- Previous month days (if any) -->
     {% for i in range(last_month_days+1-first_day_offset, last_month_days+1) %}
     <li><time datetime="2024-11-{{ i }}">{{ i }}</time></li>
     {% endfor %}
-    <!-- Current month days -->
     {% for i in range(1, num_days+1) %}
     <li><form action="{{ pathViewDay }}?dayNum={{ i }}" method="POST"><button type="submit"><time datetime="2024-12-{{ i }}">{{ i }}</time></button></form></li>
     {% endfor %}
-    <!-- Next month days (if any) -->
     {% for i in range(1, 36-(first_day_offset+num_days)) %}
     <li><time datetime="2024-12-{{ i }}">{{ i }}</time></li>
     {% endfor %}
