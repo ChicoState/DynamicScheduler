@@ -72,6 +72,7 @@ def login():
 
 @app.route(pathViewDay, methods=['POST', 'GET'])
 def day_view():
+    """render dayview page"""
     day_number = int(request.args.get('dayNum', 1))
     tasks = db.get_tasks_for_day(day_number)
     return render_template('dayView.html', day_number=day_number, day_name='Tuesday',
@@ -82,6 +83,7 @@ def day_view():
 
 @app.route(pathNewEvent, methods=['POST', 'GET'])
 def add_event():
+    """render addevent page"""
     day_number=int(request.args['dayNum'])
     return render_template('addEvent.html', day_number=day_number, day_name='Tuesday',
                            month_number=12, month_name='December', year=2024,
@@ -91,6 +93,7 @@ def add_event():
 
 @app.route(pathCreateEvent, methods=['POST', 'GET'])
 def receive_event():
+    """add a received event into database and redirect back to dayview"""
     # is redundant, since we have 'start_date', but somebody didn't write a python util
     # function to parse date into day, month, year
     day_number=int(request.args['dayNum'])
@@ -110,21 +113,21 @@ def receive_event():
     else:
         from_time = request.form["from_time"]
         to_time = request.form["to_time"]
-    
+
         start_time = util.time_to_minutes(from_time)
         end_time = util.time_to_minutes(to_time)
         duration = end_time - start_time
 
     # testing the inputs vvv
     # if is_task:
-    #     return render_template('debug.html', 
+    #     return render_template('debug.html',
     #                        display=f"task: name={name}; desc={description};
     # sdate={start_date}; task={is_task}; can_split={can_split}; duration={duration}")
     # else:
-    #     return render_template('debug.html', 
+    #     return render_template('debug.html',
     #                        display=f"event: name={name}; desc={description};
     # sdate={start_date}; task={is_task}; from_time={from_time}; duration={duration}")
-    
+
     if is_task:
         # is a task
         task = {
@@ -152,7 +155,7 @@ def receive_event():
         }
 
     db.add_task(task)
-    
+
     return redirect(util.formatURI(pathViewDay, dayNum=day_number))
 
 @app.route(pathViewTaskOrEvent, methods=['POST', 'GET'])
@@ -162,7 +165,7 @@ def view_task_event():
     task = db.get_task_by_id(ObjectId(task_id))
     return render_template('viewTaskEvent.html', task=task,
                            pathBack=util.formatURI(pathViewDay, dayNum=task["day_number"]),
-                           pathViewCalendar=pathViewCalendar, 
+                           pathViewCalendar=pathViewCalendar,
                            pathDeleteTaskOrEvent=util.formatURI(pathDeleteTaskOrEvent,
                                                                 taskId=task["_id"]))
 
