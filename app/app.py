@@ -74,7 +74,8 @@ def login():
 def day_view():
     day_number = int(request.args.get('dayNum', 1))
     tasks = db.get_tasks_for_day(day_number)
-    return render_template('dayView.html', day_number=day_number, day_name='Tuesday', month_name='October', military_time=False, tasks=tasks,
+    return render_template('dayView.html', day_number=day_number, day_name='Tuesday',
+                           month_name='October', military_time=False, tasks=tasks,
                             pathNewEvent=util.formatURI(pathNewEvent, dayNum=day_number),
                             pathRawViewTaskOrEvent=pathViewTaskOrEvent,
                             pathViewCalendar=pathViewCalendar)
@@ -82,14 +83,17 @@ def day_view():
 @app.route(pathNewEvent, methods=['POST', 'GET'])
 def add_event():
     day_number=int(request.args['dayNum'])
-    return render_template('addEvent.html', day_number=day_number, day_name='Tuesday', month_number=12, month_name='December', year=2024,
-                           pathViewDay=util.formatURI(pathViewDay, dayNum=day_number), 
+    return render_template('addEvent.html', day_number=day_number, day_name='Tuesday',
+                           month_number=12, month_name='December', year=2024,
+                           pathViewDay=util.formatURI(pathViewDay, dayNum=day_number),
                            pathCreateEvent=util.formatURI(pathCreateEvent, dayNum=day_number))
 
 
 @app.route(pathCreateEvent, methods=['POST', 'GET'])
 def receive_event():
-    day_number=int(request.args['dayNum']) # is redundant, since we have 'start_date', but somebody didn't write a python util function to parse date into day, month, year
+    # is redundant, since we have 'start_date', but somebody didn't write a python util
+    # function to parse date into day, month, year
+    day_number=int(request.args['dayNum'])
 
     name = request.form["event_name"]
     description = request.form["event_description"]
@@ -101,7 +105,7 @@ def receive_event():
         try:
             _ = request.form["can_split"]
             can_split = True
-        except:
+        except Exception:
             can_split = False
     else:
         from_time = request.form["from_time"]
@@ -114,10 +118,12 @@ def receive_event():
     # testing the inputs vvv
     # if is_task:
     #     return render_template('debug.html', 
-    #                        display=f"task: name={name}; desc={description}; sdate={start_date}; task={is_task}; can_split={can_split}; duration={duration}")
+    #                        display=f"task: name={name}; desc={description};
+    # sdate={start_date}; task={is_task}; can_split={can_split}; duration={duration}")
     # else:
     #     return render_template('debug.html', 
-    #                        display=f"event: name={name}; desc={description}; sdate={start_date}; task={is_task}; from_time={from_time}; duration={duration}")
+    #                        display=f"event: name={name}; desc={description};
+    # sdate={start_date}; task={is_task}; from_time={from_time}; duration={duration}")
     
     if is_task:
         # is a task
@@ -125,7 +131,6 @@ def receive_event():
             "title": name,
             "description": description,
             "start_date": start_date,
-            "from_time": from_time,
             "day_number": day_number,
             "is_task": True,
             "due_date": due_date,
@@ -138,7 +143,6 @@ def receive_event():
             "title": name,
             "description": description,
             "start_date": start_date,
-            "from_time": from_time,
             "day_number": day_number,
             "is_task": True,
             "from_time": from_time, # redundant, but used
@@ -156,10 +160,11 @@ def view_task_event():
     """A function to get tasks by objectid and render template"""
     task_id = request.args['taskId']
     task = db.get_task_by_id(ObjectId(task_id))
-    return render_template('viewTaskEvent.html', task=task, 
+    return render_template('viewTaskEvent.html', task=task,
                            pathBack=util.formatURI(pathViewDay, dayNum=task["day_number"]),
                            pathViewCalendar=pathViewCalendar, 
-                           pathDeleteTaskOrEvent=util.formatURI(pathDeleteTaskOrEvent, taskId=task["_id"]))
+                           pathDeleteTaskOrEvent=util.formatURI(pathDeleteTaskOrEvent,
+                                                                taskId=task["_id"]))
 
 @app.route(pathDeleteTaskOrEvent, methods=['POST', 'GET'])
 def delete_task():

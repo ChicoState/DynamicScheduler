@@ -56,7 +56,7 @@ def formatURI(path:str, **kwargs):
 
     **Example:** formatURI("/mypath", dayNum="10", monthNum="4") -> "/mypath?dayNum=10&monthNum=4"
     """
-    if(len(kwargs) == 0):
+    if len(kwargs) == 0:
         return path
     s = f"{path}?"
     for k, v in kwargs.items():
