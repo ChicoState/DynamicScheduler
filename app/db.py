@@ -10,13 +10,13 @@ db = client.mydatabase
 tasks_collection = db.tasks
 tasks_collection.create_index("day_number")
 
-def get_tasks_for_day(day_number):
+def get_events_for_day(day_number):
     """
-    A function to get all tasks by day
+    A function to get all events (not tasks) by day
     input: day_number -> int
     output: list_tasks -> list
     """
-    return list(tasks_collection.find({"day_number": day_number}))
+    return list(tasks_collection.find({"is_task": False, "day_number": day_number}))
 
 def add_task(task):
     """

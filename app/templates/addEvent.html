@@ -5,8 +5,9 @@
 <!-- where:
 - day_name: str - what day of the week it is
 - month_name: str - on which day the first day of the month falls (0 for Sunday, 1 for Monday, etc)
-- day_number: str/int - the day of the month
-- year: str/int - the year; 2024/2025 for our purposes
+- month_number: int - number of the month
+- day_number: int - the day of the month
+- year: int - the year; 2024/2025 for our purposes
 - pathViewDay: str - a full path to dayview, including arguments
 - pathCreateEvent: str - a full path to create event screen, including arguments -->
 
@@ -31,7 +32,7 @@
         <textarea type="text" id="event_description" name="event_description"></textarea><br>
 
         <label for="start_date">Start on: <red>*</red> </label><br>
-        <input type="date" id="start_date" name="start_date" required value="{{ year }}-{{ month_number }}-{{ day_number }}"><br><br>
+        <input type="date" id="start_date" name="start_date" required value="{{ year }}-{% if month_number < 10 %}0{% endif %}{{ month_number }}-{% if day_number < 10 %}0{% endif %}{{ day_number }}"><br><br>
 
         <div class="choice_block_container">
             

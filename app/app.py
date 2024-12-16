@@ -6,6 +6,7 @@ import db
 import util
 from flask import Flask, render_template, request, redirect, session
 from bson.objectid import ObjectId
+from werkzeug.exceptions import BadRequestKeyError
 
 app = Flask(__name__)
 
@@ -74,7 +75,7 @@ def login():
 def day_view():
     """render dayview page"""
     day_number = int(request.args.get('dayNum', 1))
-    tasks = db.get_tasks_for_day(day_number)
+    tasks = db.get_events_for_day(day_number)
     return render_template('dayView.html', day_number=day_number, day_name='Tuesday',
                            month_name='October', military_time=False, tasks=tasks,
                             pathNewEvent=util.formatURI(pathNewEvent, dayNum=day_number),
@@ -104,11 +105,15 @@ def receive_event():
     is_task = request.form["is_task"] == "true"
     if is_task:
         due_date = request.form["due_date"]
-        duration = int(request.form["duration"])
+        duration = request.form["duration"]
+        if duration == "":
+            duration = 0
+        else:
+            duration = int(duration)
         try:
             _ = request.form["can_split"]
             can_split = True
-        except Exception:
+        except BadRequestKeyError:
             can_split = False
     else:
         from_time = request.form["from_time"]
@@ -117,16 +122,6 @@ def receive_event():
         start_time = util.time_to_minutes(from_time)
         end_time = util.time_to_minutes(to_time)
         duration = end_time - start_time
-
-    # testing the inputs vvv
-    # if is_task:
-    #     return render_template('debug.html',
-    #                        display=f"task: name={name}; desc={description};
-    # sdate={start_date}; task={is_task}; can_split={can_split}; duration={duration}")
-    # else:
-    #     return render_template('debug.html',
-    #                        display=f"event: name={name}; desc={description};
-    # sdate={start_date}; task={is_task}; from_time={from_time}; duration={duration}")
 
     if is_task:
         # is a task
@@ -147,7 +142,7 @@ def receive_event():
             "description": description,
             "start_date": start_date,
             "day_number": day_number,
-            "is_task": True,
+            "is_task": False,
             "from_time": from_time, # redundant, but used
             "to_time": to_time, # redundant, but used
             "start_time_mfm": start_time,
