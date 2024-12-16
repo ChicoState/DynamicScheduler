@@ -49,6 +49,19 @@ def time_to_minutes(t):
     hours, minutes = map(int, t.split(":"))
     return hours * 60 + minutes
 
+### return a uri with specified fields; path required
+def formatURI(path:str, **kwargs):
+    """
+    Return a uri with specified fields; path required
+
+    **Example:** formatURI("/mypath", dayNum="10", monthNum="4") -> "/mypath?dayNum=10&monthNum=4"
+    """
+    if len(kwargs) == 0:
+        return path
+    s = f"{path}?"
+    for k, v in kwargs.items():
+        s += f"{k}={v}&"
+    return s[:-1] # drop last '&'
 
 def get_current_time_12h():
     """

@@ -6,6 +6,7 @@ import db
 import util
 from flask import Flask, render_template, request, redirect, session
 from bson.objectid import ObjectId
+from werkzeug.exceptions import BadRequestKeyError
 
 app = Flask(__name__)
 
@@ -72,46 +73,85 @@ def login():
 
 @app.route(pathViewDay, methods=['POST', 'GET'])
 def day_view():
-    """A route used for day view, the home page of the site"""
+    """render dayview page"""
     day_number = int(request.args.get('dayNum', 1))
-    tasks = db.get_tasks_for_day(day_number)
-    return render_template('dayView.html', day_number=day_number,
-                           day_name='Tuesday', month_name='December',
-                           military_time=False, tasks=tasks,
-                           pathNewEvent=pathNewEvent, pathViewTaskOrEvent=pathViewTaskOrEvent,
-                           pathViewCalendar=pathViewCalendar)
+    tasks = db.get_events_for_day(day_number)
+    return render_template('dayView.html', day_number=day_number, day_name='Tuesday',
+                           month_name='October', military_time=False, tasks=tasks,
+                            pathNewEvent=util.formatURI(pathNewEvent, dayNum=day_number),
+                            pathRawViewTaskOrEvent=pathViewTaskOrEvent,
+                            pathViewCalendar=pathViewCalendar)
 
 @app.route(pathNewEvent, methods=['POST', 'GET'])
 def add_event():
-    """A route used to add an event"""
-    return render_template('addEvent.html', day_number=int(request.args['dayNum']),
-                           day_name='Tuesday', month_name='December',
-                           pathViewDay=pathViewDay, pathCreateEvent=pathCreateEvent)
+    """render addevent page"""
+    day_number=int(request.args['dayNum'])
+    return render_template('addEvent.html', day_number=day_number, day_name='Tuesday',
+                           month_number=12, month_name='December', year=2024,
+                           pathViewDay=util.formatURI(pathViewDay, dayNum=day_number),
+                           pathCreateEvent=util.formatURI(pathCreateEvent, dayNum=day_number))
+
 
 @app.route(pathCreateEvent, methods=['POST', 'GET'])
 def receive_event():
-    """A request form used to add an event/task"""
+    """add a received event into database and redirect back to dayview"""
+    # is redundant, since we have 'start_date', but somebody didn't write a python util
+    # function to parse date into day, month, year
+    day_number=int(request.args['dayNum'])
+
     name = request.form["event_name"]
-    from_time = request.form["from_time"]
-    to_time = request.form["to_time"]
-    day_number = int(request.args['dayNum'])
+    description = request.form["event_description"]
+    start_date = request.form["start_date"]
+    is_task = request.form["is_task"] == "true"
+    if is_task:
+        due_date = request.form["due_date"]
+        duration = request.form["duration"]
+        if duration == "":
+            duration = 0
+        else:
+            duration = int(duration)
+        try:
+            _ = request.form["can_split"]
+            can_split = True
+        except BadRequestKeyError:
+            can_split = False
+    else:
+        from_time = request.form["from_time"]
+        to_time = request.form["to_time"]
 
-    start_time = util.time_to_minutes(from_time)
-    end_time = util.time_to_minutes(to_time)
-    duration = end_time - start_time
+        start_time = util.time_to_minutes(from_time)
+        end_time = util.time_to_minutes(to_time)
+        duration = end_time - start_time
 
-    task = {
-        "title": name,
-        "from_time": from_time,
-        "to_time": to_time,
-        "start_time_mfm": start_time,
-        "duration_minutes": duration,
-        "day_number": day_number,
-        "is_task": False
-    }
+    if is_task:
+        # is a task
+        task = {
+            "title": name,
+            "description": description,
+            "start_date": start_date,
+            "day_number": day_number,
+            "is_task": True,
+            "due_date": due_date,
+            "duration_minutes": duration,
+            "can_split": can_split,
+        }
+    else:
+        # an event
+        task = {
+            "title": name,
+            "description": description,
+            "start_date": start_date,
+            "day_number": day_number,
+            "is_task": False,
+            "from_time": from_time, # redundant, but used
+            "to_time": to_time, # redundant, but used
+            "start_time_mfm": start_time,
+            "duration_minutes": duration,
+        }
+
     db.add_task(task)
 
-    return redirect(f"{pathViewDay}?dayNum={day_number}")
+    return redirect(util.formatURI(pathViewDay, dayNum=day_number))
 
 @app.route(pathViewTaskOrEvent, methods=['POST', 'GET'])
 def view_task_event():
@@ -119,8 +159,10 @@ def view_task_event():
     task_id = request.args['taskId']
     task = db.get_task_by_id(ObjectId(task_id))
     return render_template('viewTaskEvent.html', task=task,
-                           pathViewDay=pathViewDay, pathViewCalendar=pathViewCalendar,
-                           pathDeleteTaskOrEvent=pathDeleteTaskOrEvent)
+                           pathBack=util.formatURI(pathViewDay, dayNum=task["day_number"]),
+                           pathViewCalendar=pathViewCalendar,
+                           pathDeleteTaskOrEvent=util.formatURI(pathDeleteTaskOrEvent,
+                                                                taskId=task["_id"]))
 
 @app.route(pathDeleteTaskOrEvent, methods=['POST', 'GET'])
 def delete_task():
@@ -129,7 +171,7 @@ def delete_task():
     task = db.get_task_by_id(ObjectId(task_id))
     day_number = int(task["day_number"])
     db.delete_task(task)
-    return redirect(f"{pathViewDay}?dayNum={day_number}")
+    return redirect(util.formatURI(pathViewDay, dayNum=day_number))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

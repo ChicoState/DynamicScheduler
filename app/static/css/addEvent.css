@@ -1,3 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;800&display=swap");
+
+body {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    font-family: "Poppins", serif;
+    background: #FFC72C;
+    background: radial-gradient(circle, #FFC72C 0%, #1D428A 100%);
+  }
+
+.choice_block_with_select {
+    margin: 5px;
+    border-radius: 20px;
+    /* background-color: lightblue; */
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.choice_block {
+    padding: 10px;
+    border-radius: 20px;
+    /* background-color: lightgoldenrodyellow; */
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.radio_wrapper {
+    margin: 10px;
+}
+
 .add_event_form {
-    background-color: lightblue;
+    align-items: center;
+}
+
+.choice_block_container {
+    display: flex;
+    flex-direction: row;
+}
+
+red {
+    color: red;
 }

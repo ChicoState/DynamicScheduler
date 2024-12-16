@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!-- expect template parameters: pathRawViewDay, first_day_offset, num_days, month_name, last_month_days, year -->
+<!-- where:
+- pathRawViewDay: str - the path to the dayView page (Raw: DOES NOT INCLUDE THE ARGUMENTS)
+- first_day_offset: int - is on which day the first day of the month falls (0 for Sunday, 1 for Monday, etc)
+- num_days: int - the number of days in the given month
+- month_name: int - the name of the month
+- last_month_days: int - the number of days in the last month
+- year: int/str - the current year number -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,5 +30,6 @@
     <li><time datetime="2024-12-{{ i }}">{{ i }}</time></li>
     {% endfor %}
 </ul>
+
 </body>
 </html>
