@@ -28,16 +28,14 @@ def test_clear_database(client):
 
 def test_create_event_route(client):
     """Test the create event route"""
-    task = {'title': 'testing',
+    taskRaw = {'title': 'testing',
             'description': 'testingDescription',
             'start_date': '2024-12-01',
-            'day_number': 1,
-            'is_task': True,
+            'day_number': '1',
+            'is_task': 'false',
             'from_time': '10:00',
-            'to_time': '13:00',
-            'start_time_mfm': 600,
-            'duration_minutes': 180
+            'to_time': '13:00'
             }
-    response = client.post("/newEvent/create?dayNum=1", data=task)
+    response = client.post("/newEvent/create?dayNum=1", data=taskRaw)
     assert response.status_code == 302  # Redirect after creation
     assert "/dayView?dayNum=1" in response.headers["Location"]
