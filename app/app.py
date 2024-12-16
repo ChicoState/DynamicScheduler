@@ -149,6 +149,8 @@ def receive_event():
             "duration_minutes": duration,
         }
 
+    return render_template('debug.html', display="ugh im tired pls help")
+
     db.add_task(task)
 
     return redirect(util.formatURI(pathViewDay, dayNum=day_number))

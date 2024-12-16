@@ -28,10 +28,9 @@ def test_clear_database(client):
 
 def test_create_event_route(client):
     """Test the create event route"""
-    taskRaw = {'title': 'testing',
-            'description': 'testingDescription',
+    taskRaw = {'event_name': 'testing',
+            'event_description': 'testingDescription',
             'start_date': '2024-12-01',
-            'day_number': '1',
             'is_task': 'false',
             'from_time': '10:00',
             'to_time': '13:00'
